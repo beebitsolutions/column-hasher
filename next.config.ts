@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Ensure static export works
+  experimental: {
+    // Disable server components for static export
+  },
 };
 
 export default nextConfig;

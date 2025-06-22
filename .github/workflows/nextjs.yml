@@ -47,6 +47,23 @@ jobs:
       - name: Build with Next.js
         run: npm run build
         
+      - name: Export static files
+        run: |
+          if [ ! -d "out" ]; then
+            echo "Creating out directory and copying static files..."
+            mkdir -p out
+            cp -r .next/static out/_next/static
+            cp -r .next/server/app/* out/
+            cp -r public/* out/ 2>/dev/null || true
+            # Ensure index.html exists
+            if [ -f "out/index.html" ]; then
+              echo "Static export successful"
+            else
+              echo "Error: index.html not found"
+              exit 1
+            fi
+          fi
+        
       - name: List build output (debug)
         run: |
           echo "Current directory:"
