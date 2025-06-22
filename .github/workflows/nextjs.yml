@@ -54,9 +54,13 @@ jobs:
           echo "Directory contents:"
           ls -la
           echo "Looking for out directory:"
-          find . -name "out" -type d
+          find . -name "out" -type d -not -path "./node_modules/*"
+          echo "Looking for .next directory:"
+          ls -la .next/ || echo ".next directory not found"
           echo "Contents of out directory (if exists):"
           ls -la out/ || echo "out directory not found"
+          echo "Looking for any static export files:"
+          find . -name "*.html" -not -path "./node_modules/*" | head -10
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
