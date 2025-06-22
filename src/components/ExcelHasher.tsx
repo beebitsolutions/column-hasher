@@ -7,6 +7,7 @@ import { ColumnSelector } from '@/components/ColumnSelector';
 import { ColumnPreview } from '@/components/ColumnPreview';
 import { SHA512Info } from '@/components/SHA512Info';
 import { ProcessAndDownload } from '@/components/ProcessAndDownload';
+import { SaltInput } from '@/components/SaltInput';
 import { GitHubButton } from '@/components/GitHubButton';
 import { AlertCircle } from 'lucide-react';
 
@@ -34,6 +35,7 @@ export const ExcelHasher: React.FC = () => {
       <div className="grid gap-6">
         <SHA512Info />
         <FileUploader />
+        <SaltInput />
         <ColumnSelector />
         <ColumnPreview />
         <ProcessAndDownload />

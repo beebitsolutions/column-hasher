@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useExcelStore } from '@/store/excelStore';
 
 export const ColumnPreview: React.FC = () => {
-  const { columnPreview, selectedColumn } = useExcelStore();
+  const { columnPreview, selectedColumn, salt } = useExcelStore();
 
   if (!selectedColumn || columnPreview.length === 0) {
     return null;
@@ -17,6 +17,7 @@ export const ColumnPreview: React.FC = () => {
         <CardTitle>Vista Previa: {selectedColumn}</CardTitle>
         <p className="text-sm text-muted-foreground">
           Mostrando las primeras {columnPreview.length} filas con vista previa del hash SHA-512
+          {salt && <span> (con sal: &quot;{salt}&quot;)</span>}
         </p>
       </CardHeader>
       <CardContent>

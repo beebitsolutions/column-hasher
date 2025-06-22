@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useExcelStore } from '@/store/excelStore';
@@ -14,8 +14,34 @@ export const ColumnSelector: React.FC = () => {
     setSelectedColumn, 
     setColumnPreview, 
     setError,
-    setIsProcessing 
+    setIsProcessing,
+    salt
   } = useExcelStore();
+
+  // Effect to update preview when salt changes
+  useEffect(() => {
+    const updatePreview = async () => {
+      if (!excelData || !selectedColumn) return;
+      
+      setIsProcessing(true);
+      setError(null);
+      
+      try {
+        const columnIndex = excelData.headers.indexOf(selectedColumn);
+        if (columnIndex === -1) return;
+        
+        const columnData = getColumnData(excelData.data, columnIndex);
+        const preview = await createColumnPreview(columnData, salt, 10);
+        setColumnPreview(preview);
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setIsProcessing(false);
+      }
+    };
+    
+    updatePreview();
+  }, [salt, excelData, selectedColumn, setColumnPreview, setError, setIsProcessing]); // Re-run when salt changes
 
   const handleColumnSelect = useCallback(async (columnName: string) => {
     if (!excelData) return;
@@ -31,14 +57,14 @@ export const ColumnSelector: React.FC = () => {
       }
 
       const columnData = getColumnData(excelData.data, columnIndex);
-      const preview = await createColumnPreview(columnData, 10);
+      const preview = await createColumnPreview(columnData, salt, 10);
       setColumnPreview(preview);
     } catch (error) {
       setError((error as Error).message);
     } finally {
       setIsProcessing(false);
     }
-  }, [excelData, setSelectedColumn, setColumnPreview, setError, setIsProcessing]);
+  }, [excelData, setSelectedColumn, setColumnPreview, setError, setIsProcessing, salt]);
 
   if (!excelData) {
     return null;

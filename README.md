@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Column Hasher
 
-## Getting Started
+Herramienta web para aplicar hash SHA-512 a columnas de archivos Excel de forma segura y privada.
 
-First, run the development server:
+## Características
+
+- ✅ **100% Cliente**: Todo el procesamiento se realiza en el navegador
+- ✅ **Seguro**: Utiliza SHA-512 con sal opcional
+- ✅ **Privado**: Ningún dato sale de tu dispositivo
+- ✅ **Fácil de usar**: Interfaz intuitiva drag & drop
+- ✅ **Vista previa**: Ve el resultado antes de procesar
+
+## Desarrollo
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Probar Build Estático Localmente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Opción 1: Con Docker (recomendado)
+```bash
+# Construir y probar con Docker
+npm run test:static
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# La aplicación estará disponible en http://localhost:3001
 
-## Learn More
+# Para limpiar después de las pruebas
+npm run cleanup:test
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Opción 2: Con Docker Compose
+```bash
+# Construir y servir con docker-compose
+npm run test:static:compose
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Ver logs
+docker-compose logs -f
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Parar
+docker-compose down
+```
 
-## Deploy on Vercel
+### Opción 3: Manual
+```bash
+# Generar archivos estáticos
+npm run build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Los archivos estarán en la carpeta 'out/'
+# Puedes servirlos con cualquier servidor web estático
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Despliegue
+
+Este proyecto está configurado para despliegue automático en GitHub Pages:
+
+```bash
+npm run build
+```
+
+El sitio se genera como SSG (Static Site Generation) en la carpeta `out/`.
+
+## Tecnologías
+
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
+- Shadcn/ui
+- Zustand
+- XLSX
+- Web Crypto API
+
+## Funcionalidades
+
+### 1. Carga de Archivos Excel
+- Drag & drop o selección manual
+- Soporte para .xlsx y .xls
+- Validación automática de formato
+
+### 2. Selección de Columnas
+- Dropdown con todas las columnas disponibles
+- Información del archivo (hojas, columnas, filas)
+
+### 3. Sal Opcional
+- Campo de texto para sal personalizada
+- Se añade al final de cada valor antes del hash
+- Trim automático para evitar espacios
+
+### 4. Vista Previa
+- Muestra los primeros 10 valores
+- Comparación lado a lado: original vs hash
+- Actualización en tiempo real al cambiar la sal
+
+### 5. Procesamiento y Descarga
+- Hash SHA-512 de toda la columna
+- Barra de progreso en tiempo real
+- Descarga automática del archivo modificado
+- Mantiene el formato original del Excel
+
+## Seguridad
+
+- **Procesamiento local**: Ningún archivo se envía a servidores externos
+- **SHA-512**: Algoritmo criptográfico robusto
+- **Sal opcional**: Mayor seguridad con valores personalizados
+- **Web Crypto API**: Implementación nativa del navegador

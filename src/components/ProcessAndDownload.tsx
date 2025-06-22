@@ -13,8 +13,9 @@ export const ProcessAndDownload: React.FC = () => {
   const { 
     excelData, 
     selectedColumn, 
-    setError, 
-    reset
+    setError,
+    reset,
+    salt
   } = useExcelStore();
   
   const [isProcessing, setIsProcessing] = useState(false);
@@ -45,7 +46,7 @@ export const ProcessAndDownload: React.FC = () => {
       
       for (let i = 0; i < columnData.length; i += batchSize) {
         const batch = columnData.slice(i, i + batchSize);
-        const hashedBatch = await hashValues(batch);
+        const hashedBatch = await hashValues(batch, salt);
         hashedValues.push(...hashedBatch);
         
         // Update progress
@@ -81,7 +82,7 @@ export const ProcessAndDownload: React.FC = () => {
       setIsProcessing(false);
       setProgress(0);
     }
-  }, [excelData, selectedColumn, setError]);
+  }, [excelData, selectedColumn, setError, salt]);
 
   const handleReset = useCallback(() => {
     reset();
@@ -131,8 +132,14 @@ export const ProcessAndDownload: React.FC = () => {
         <div className="text-sm text-muted-foreground">
           <p>
             Esto aplicará hash SHA-512 a todos los valores de la columna &quot;{selectedColumn}&quot;
-            y descargará el archivo Excel modificado.
+            {salt && <span> con la sal &quot;{salt}&quot;</span>}
+            {' '}y descargará el archivo Excel modificado.
           </p>
+          {salt && (
+            <p className="mt-1 text-xs">
+              Formato: <span className="font-mono bg-muted px-1 rounded">valor + &quot;{salt}&quot;</span>
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>
