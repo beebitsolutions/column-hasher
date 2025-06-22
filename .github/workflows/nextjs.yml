@@ -52,14 +52,36 @@ jobs:
           if [ ! -d "out" ]; then
             echo "Creating out directory and copying static files..."
             mkdir -p out
-            cp -r .next/static out/_next/static
-            cp -r .next/server/app/* out/
-            cp -r public/* out/ 2>/dev/null || true
+            
+            # Create _next directory structure
+            mkdir -p out/_next
+            
+            # Copy static files if they exist
+            if [ -d ".next/static" ]; then
+              cp -r .next/static out/_next/
+            fi
+            
+            # Copy app files
+            if [ -d ".next/server/app" ]; then
+              cp -r .next/server/app/* out/
+            fi
+            
+            # Copy public files
+            if [ -d "public" ]; then
+              cp -r public/* out/ 2>/dev/null || true
+            fi
+            
+            # List what we have in out
+            echo "Contents of out directory:"
+            ls -la out/
+            
             # Ensure index.html exists
             if [ -f "out/index.html" ]; then
-              echo "Static export successful"
+              echo "✅ Static export successful"
             else
-              echo "Error: index.html not found"
+              echo "❌ Error: index.html not found"
+              echo "Available files:"
+              find out -name "*.html" || echo "No HTML files found"
               exit 1
             fi
           fi
