@@ -1,6 +1,6 @@
 # Column Hasher
 
-Herramienta web para aplicar hash SHA-512 a columnas de archivos Excel de forma segura y privada.
+Herramienta web para aplicar hash SHA-512 a columnas de archivos Excel de forma segura y privada. Creada por [Beebit](https://beebit.es) bajo licencia MIT.
 
 ## Características
 
@@ -20,6 +20,7 @@ npm run dev
 ## Probar Build Estático Localmente
 
 ### Opción 1: Con Docker (recomendado)
+
 ```bash
 # Construir y probar con Docker
 npm run test:static
@@ -31,6 +32,7 @@ npm run cleanup:test
 ```
 
 ### Opción 2: Con Docker Compose
+
 ```bash
 # Construir y servir con docker-compose
 npm run test:static:compose
@@ -43,6 +45,7 @@ docker-compose down
 ```
 
 ### Opción 3: Manual
+
 ```bash
 # Generar archivos estáticos
 npm run build
@@ -75,25 +78,30 @@ El sitio se genera como SSG (Static Site Generation) en la carpeta `out/`.
 ## Funcionalidades
 
 ### 1. Carga de Archivos Excel
+
 - Drag & drop o selección manual
 - Soporte para .xlsx y .xls
 - Validación automática de formato
 
 ### 2. Selección de Columnas
+
 - Dropdown con todas las columnas disponibles
 - Información del archivo (hojas, columnas, filas)
 
 ### 3. Sal Opcional
+
 - Campo de texto para sal personalizada
 - Se añade al final de cada valor antes del hash
 - Trim automático para evitar espacios
 
 ### 4. Vista Previa
+
 - Muestra los primeros 10 valores
 - Comparación lado a lado: original vs hash
 - Actualización en tiempo real al cambiar la sal
 
 ### 5. Procesamiento y Descarga
+
 - Hash SHA-512 de toda la columna
 - Barra de progreso en tiempo real
 - Descarga automática del archivo modificado
