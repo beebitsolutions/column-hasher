@@ -1,6 +1,8 @@
 # Column Hasher
 
-Herramienta web para aplicar hash SHA-512 a columnas de archivos Excel de forma segura y privada. Creada por [Beebit](https://beebit.es) bajo licencia MIT.
+Herramienta web para aplicar hash SHA-512 a columnas de archivos Excel de forma segura y privada.
+
+🌐 **[Ver aplicación en vivo](https://beebitsolutions.github.io/column-hasher/)**
 
 ## Características
 
